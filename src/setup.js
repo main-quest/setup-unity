@@ -73,7 +73,7 @@ async function installUnityHub() {
             const installerPathFixed = `${installerPath}.exe`
             fs.renameSync(installerPath, installerPathFixed)
             await execute(`"${installerPathFixed}" /S`);
-            await execute(`del "${installerPathFixed}"`);
+            fs.unlinkSync(installerPathFixed) 
         }
 
     }
