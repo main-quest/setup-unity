@@ -70,7 +70,7 @@ async function installUnityHub() {
         if (!fs.existsSync(unityHubPath)) {
             const installerPath = await tc.downloadTool('https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe');
             // Fixed on win "Unable to locate executable file [...] Also verify the file has a valid extension for an executable file"
-            const installerPathFixed = `"${installerPath}".exe`
+            const installerPathFixed = `${installerPath}.exe`
             fs.renameSync(installerPath, installerPathFixed)
             await execute(`"${installerPathFixed}" /s`);
             await execute(`del "${installerPathFixed}"`);
