@@ -72,7 +72,7 @@ async function installUnityHub() {
             // Fixed on win "Unable to locate executable file [...] Also verify the file has a valid extension for an executable file"
             const installerPathFixed = `${installerPath}.exe`
             fs.renameSync(installerPath, installerPathFixed)
-            await execute(`"${installerPathFixed}" /s`);
+            await execute(`"${installerPathFixed}" /S`);
             await execute(`del "${installerPathFixed}"`);
         }
 
