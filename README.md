@@ -1,3 +1,6 @@
+This is based on https://github.com/marketplace/actions/setup-unity
+All credit goes to the original author
+
 # setup-unity
 
 <p align="left">
