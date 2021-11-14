@@ -68,10 +68,12 @@ async function installUnityHub() {
 
         unityHubPath = 'C:/Program Files/Unity Hub/Unity Hub.exe';
         if (!fs.existsSync(unityHubPath)) {
+            const installerPath = await tc.downloadTool('https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe');
             // Fixed on win "Unable to locate executable file [...] Also verify the file has a valid extension for an executable file"
-            const installerPath = await tc.downloadTool('https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe', 'C:/UnityHubSetup.exe');
-            await execute(`"${installerPath}" /s`);
-            await execute(`del "${installerPath}"`);
+            const installerPathFixed = `"${installerPath}".exe`
+            fs.renameSync(installerPath, installerPathFixed)
+            await execute(`"${installerPathFixed}" /s`);
+            await execute(`del "${installerPathFixed}"`);
         }
 
     }
