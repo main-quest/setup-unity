@@ -101,9 +101,24 @@ async function installUnityEditor(unityHubPath, installPath, unityVersion, unity
 }
 
 async function installUnityModules(unityHubPath, unityVersion, unityModules, unityModulesChild) {
-    const modulesArgs = unityModules.map(s => `--module ${s.toLowerCase()}`).join(' ');
+    // LL 18.11.2021: Unity Hub 2.4.5 is buggy in installing multiple modules (maybe it only happens when one of them is already installed), so we're calling the Hub executable for each module separately
+    
+//     const modulesArgs = unityModules.map(s => `--module ${s.toLowerCase()}`).join(' ');
+//     const childModulesArg = unityModulesChild ? '--childModules' : '';
+//     const stdout = await executeHub(unityHubPath, `install-modules --version ${unityVersion} ${modulesArgs} ${childModulesArg}`);
+//     if (!stdout.includes('successfully') && !stdout.includes("it's already installed")) {
+//         throw new Error('unity modules installation failed');
+//     }
+    
+    unityModules.forEach(
+        m => installUnityModule(unityHubPath, unityVersion, m, unityModulesChild)
+    );
+}
+// LL 18.11.2021: Temp fix to install a single module
+async function installUnityModule(unityHubPath, unityVersion, unityModule, unityModulesChild) {
+    const moduleArg = `--module ${unityModule.toLowerCase()}`;
     const childModulesArg = unityModulesChild ? '--childModules' : '';
-    const stdout = await executeHub(unityHubPath, `install-modules --version ${unityVersion} ${modulesArgs} ${childModulesArg}`);
+    const stdout = await executeHub(unityHubPath, `install-modules --version ${unityVersion} ${moduleArg} ${childModulesArg}`);
     if (!stdout.includes('successfully') && !stdout.includes("it's already installed")) {
         throw new Error('unity modules installation failed');
     }
