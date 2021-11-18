@@ -109,10 +109,9 @@ async function installUnityModules(unityHubPath, unityVersion, unityModules, uni
 //     if (!stdout.includes('successfully') && !stdout.includes("it's already installed")) {
 //         throw new Error('unity modules installation failed');
 //     }
-    
-    unityModules.forEach(
-        m => installUnityModule(unityHubPath, unityVersion, m, unityModulesChild)
-    );
+    for (const m of unityModules) {
+      await installUnityModule(unityHubPath, unityVersion, m, unityModulesChild);
+    }
 }
 // LL 18.11.2021: Temp fix to install a single module
 async function installUnityModule(unityHubPath, unityVersion, unityModule, unityModulesChild) {
